@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: center;
   padding: 40px 0;
+  background: linear-gradient(180deg, rgba(0,123,255,0.06), rgba(0,0,0,0));
 }
 
 .auth-card {
@@ -12,7 +13,13 @@
   background: white;
   border-radius: 8px;
   padding: 40px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.12);
 }
 
 .auth-card h1 {
@@ -24,6 +31,36 @@
 .btn-block {
   width: 100%;
   margin-top: 10px;
+}
+
+/* Smooth UI improvements */
+.form-control {
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 4px rgba(0,123,255,0.15);
+}
+
+.btn.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn.btn-primary::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255,255,255,0.2), transparent 30%, transparent 70%, rgba(255,255,255,0.2));
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+}
+
+.btn.btn-primary:hover::after {
+  transform: translateX(100%);
 }
 
 .auth-footer {

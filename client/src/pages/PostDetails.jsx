@@ -11,6 +11,7 @@ const PostDetails = () => {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [commentContent, setCommentContent] = useState('');
+  const [showComments, setShowComments] = useState(true);
 
   useEffect(() => {
     loadPost();
@@ -46,6 +47,7 @@ const PostDetails = () => {
       await postService.addComment(id, { content: commentContent });
       setCommentContent('');
       loadPost(); // Reload post to get updated comments
+      setShowComments(false); // auto-close comments pane after commenting
     } catch (error) {
       console.error('Error adding comment:', error);
     }
@@ -128,42 +130,51 @@ const PostDetails = () => {
         </article>
 
         <section className="comments">
-          <h2>Comments ({post.comments?.length || 0})</h2>
-
-          {user ? (
-            <form onSubmit={handleComment} className="comment-form">
-              <textarea
-                value={commentContent}
-                onChange={(e) => setCommentContent(e.target.value)}
-                placeholder="Write a comment..."
-                className="form-control"
-                rows="3"
-              />
-              <button type="submit" className="btn btn-primary">
-                Post Comment
-              </button>
-            </form>
-          ) : (
-            <p className="login-prompt">
-              Please <a href="/login">login</a> to leave a comment.
-            </p>
-          )}
-
-          <div className="comments-list">
-            {post.comments && post.comments.length > 0 ? (
-              post.comments.map((comment, index) => (
-                <div key={index} className="comment">
-                  <div className="comment-author">{comment.user?.name}</div>
-                  <div className="comment-content">{comment.content}</div>
-                  <div className="comment-date">
-                    {formatDate(comment.createdAt)}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p className="no-comments">No comments yet.</p>
-            )}
+          <div className="post-actions" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+            <h2 style={{ margin: 0 }}>Comments ({post.comments?.length || 0})</h2>
+            <button className="btn btn-secondary" onClick={() => setShowComments(!showComments)}>
+              {showComments ? 'Hide' : 'Show'} Comments
+            </button>
           </div>
+
+          {showComments && (
+            <>
+              {user ? (
+                <form onSubmit={handleComment} className="comment-form">
+                  <textarea
+                    value={commentContent}
+                    onChange={(e) => setCommentContent(e.target.value)}
+                    placeholder="Write a comment..."
+                    className="form-control"
+                    rows="3"
+                  />
+                  <button type="submit" className="btn btn-primary">
+                    Post Comment
+                  </button>
+                </form>
+              ) : (
+                <p className="login-prompt">
+                  Please <a href="/login">login</a> to leave a comment.
+                </p>
+              )}
+
+              <div className="comments-list">
+                {post.comments && post.comments.length > 0 ? (
+                  post.comments.map((comment, index) => (
+                    <div key={index} className="comment">
+                      <div className="comment-author">{comment.user?.name}</div>
+                      <div className="comment-content">{comment.content}</div>
+                      <div className="comment-date">
+                        {formatDate(comment.createdAt)}
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="no-comments">No comments yet.</p>
+                )}
+              </div>
+            </>
+          )}
         </section>
       </div>
     </div>

@@ -18,7 +18,8 @@ export const PostProvider = ({ children }) => {
   const loadCategories = async () => {
     try {
       const response = await categoryService.getAllCategories();
-      setCategories(response.data);
+      // API returns { success, count, data }
+      setCategories(response.data || []);
     } catch (error) {
       console.error('Error loading categories:', error);
     }
@@ -28,8 +29,9 @@ export const PostProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await postService.getAllPosts(page, 10, category);
-      setPosts(response.data);
-      setPagination(response.pagination);
+      // API returns { success, count, pagination, data }
+      setPosts(response.data || []);
+      setPagination(response.pagination || {});
       setCurrentPage(page);
     } catch (error) {
       console.error('Error loading posts:', error);

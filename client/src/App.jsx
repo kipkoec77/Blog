@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { PostProvider } from './context/PostContext';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Home from './pages/Home';
 import PostDetails from './pages/PostDetails';
 import CreatePost from './pages/CreatePost';
@@ -16,9 +17,10 @@ function App() {
     <AuthProvider>
       <PostProvider>
         <Router>
-          <div className="App">
+          <div className="min-h-screen flex flex-col">
             <Navbar />
-            <Routes>
+            <div className="flex-1">
+              <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/posts/:id" element={<PostDetails />} />
               <Route
@@ -39,7 +41,9 @@ function App() {
               />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-            </Routes>
+              </Routes>
+            </div>
+            <Footer />
           </div>
         </Router>
       </PostProvider>
