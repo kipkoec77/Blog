@@ -307,6 +307,12 @@ client/
 
 ## Contributing
 
+## Screenshots
+
+*(Add screenshots of your application here. For example: Home Page, Post Details, Login Page, etc.)*
+
+---
+
 This is an assignment project. For issues or questions, please refer to the assignment documentation.
 
 ## License
